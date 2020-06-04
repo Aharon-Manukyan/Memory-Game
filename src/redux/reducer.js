@@ -21,10 +21,10 @@ const initialState = {
   ],
   game : { start:false, finish:null},
   matchCount:0,
-  matchIndexes:[],
+  matchIndex:null,
   time: 99,
   intervalID:null,
-  cardEnableStatus:false
+  cardEnableStatus: false
 };
 
 const reducer = (state = initialState,
@@ -36,8 +36,9 @@ const reducer = (state = initialState,
       return {
         ...state,
         arrLetter: action.array,
-        game: {start:true,finish:null},
-        intervalID: action.intervalID
+        game: {...state.game,start:true},
+        intervalID: action.intervalID,
+        cardEnableStatus: true
       };
 
     case "GAME_RESTARTED":
@@ -45,22 +46,37 @@ const reducer = (state = initialState,
         ...initialState
       };
 
-    case "CLICK_CARD":
+    case "ENABLE_CLICK":
+      return {
+        ...state, cardEnableStatus: true
+      };
+
+    case "DISABLE_CLICK":
+      return {
+        ...state, cardEnableStatus: false
+      };
+
+    case "ADD_INDEX":
+      return {
+        ...state,
+        matchIndex: action.index
+      };
+
+    case "SHOW_CARD":
       return {
         ...state,
         arrLetter: [
           ...state.arrLetter.slice(0,action.index),
           {...state.arrLetter[action.index],show:true},
           ...state.arrLetter.slice(action.index + 1)
-        ],
-        matchIndexes: [...state.matchIndexes,{ id : action.index }]
+        ]
       };
 
     case "CARD_MATCHED":
       return {
         ...state,
         matchCount: state.matchCount + 1,
-        matchIndexes: []
+        matchIndex: null
       };
 
     case "CARD_DONT_MATCHED":
@@ -73,7 +89,7 @@ const reducer = (state = initialState,
           {letter:state.arrLetter[action.cards[1]].letter,show:false},
           ...state.arrLetter.slice(action.cards[1] + 1)
         ],
-        matchIndexes: [],
+        matchIndex: null
       };
 
     case "TIME_UPDATE":

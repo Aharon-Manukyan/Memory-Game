@@ -6,7 +6,7 @@ const CardContainer = (props) => {
 
 
   const {cardContainer, show, hide} = styles;
-  const { arr, index, onclick} = props;
+  const { arr, onclick } = props;
 
   return(
     <div className = {cardContainer}>
@@ -17,9 +17,8 @@ const CardContainer = (props) => {
           </span>
         : <span
             className = {hide}
-            onClick={() => {
-                onclick(index);
-            }}>
+            onClick={() => { onclick()}}
+        >
           </span>
       }
     </div>

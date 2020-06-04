@@ -9,84 +9,89 @@ const GameBoard = (props) => {
 
   const {
     state,
-    clickCard,
+    cardShow,
+    addIndex,
     cardMatched,
     cardDontMatched,
+    enableClick,
+    disableClick,
     gameIsFinished,
-    gameRestarted,
-    clearArr
-  } = props;
+    gameRestarted
+    } = props;
 
   const {
     arrLetter,
-    time,
+    cardEnableStatus,
     intervalID,
-    matchCount,
-    matchIndexes,
-    game
+    matchIndex,
+    game,
+    time,
+    matchCount
   } = state;
 
 
-  useEffect(() => {
-
-    if(matchIndexes.length === 2) {
-      matchCard(matchIndexes[0].id, matchIndexes[1].id);
-
-    }
-
+  useEffect(() =>{
     if(matchCount === 9){
-           gameIsFinished(`YOU WON IN   ${ 99 - time } SECONDS` );
-           clearInterval(intervalID);
-           setTimeout(() => {
-             gameRestarted();
-           },3000);
-         }
-
+      gameIsFinished(`YOU WON IN   ${ 99 - time } SECONDS` );
+      clearInterval(intervalID);
+      setTimeout(() => {
+        gameRestarted();
+      },3000);
+    }
     if (time === 0) {
 
-        gameIsFinished("YOU ARE LOST");
+      gameIsFinished("YOU ARE LOST");
 
-        clearInterval(intervalID);
+      clearInterval(intervalID);
 
-        setTimeout(() => {
-          gameRestarted();
-        }, 2000)
-      }
+      setTimeout(() => {
+        gameRestarted();
+      }, 2000)
+    }
   });
 
-  const matchCard = (i,j) => {
 
-    let cards = [i,j];
+  const clickCard =  (index) => {
+    let card = [matchIndex, index];
 
-    if( i > j ){
-      cards = [j,i];
+    if (matchIndex > index) {
+      card = [index, matchIndex];
     }
 
-    if(arrLetter[i].letter === arrLetter[j].letter){
-      cardMatched(cards);
-      clearArr();
-    }else{
-      setTimeout( () => {
-        cardDontMatched(cards);
-      },350);
+    if(cardEnableStatus){
+      disableClick();
+      cardShow(index);
+
+      if (matchIndex !== null) {
+        if (arrLetter[matchIndex].letter === arrLetter[index].letter) {
+          cardMatched(card);
+          enableClick();
+        } else {
+           setTimeout(() => {
+            cardDontMatched(card);
+          },1000);
+           setTimeout(() => {
+             enableClick();
+           },1200)
+        }
+      }else{
+        addIndex(index);
+        enableClick();
+      }
     }
 
   };
 
-
-
-  const arrCard = arrLetter.map((letter,index) => {
-     return <CardContainer
+  const arrCard = arrLetter.map((arr,index) => {
+    return <CardContainer
                      key        = {index}
-                     arr        = {letter}
-                     onclick    = {matchIndexes.length === 2 ? console.log :clickCard}
-                     index      = {index}
+                     arr        = {arr}
+                     onclick    = {() => clickCard(index)}
        />
    });
 
   return(
     <div className={styles.gameBoard}>
-
         { game.start
           ? arrCard
           : <img

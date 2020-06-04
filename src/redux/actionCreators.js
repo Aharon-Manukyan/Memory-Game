@@ -9,9 +9,16 @@
 
  const gameRestarted = () => ({type:"GAME_RESTARTED"})
 
- const clickCard = (index) => {
+ const cardShow = (index) => {
    return{
-     type:"CLICK_CARD",
+     type:"SHOW_CARD",
+     index
+   }
+ };
+
+ const addIndex = (index) => {
+   return{
+     type:"ADD_INDEX",
      index
    }
  };
@@ -24,16 +31,25 @@
  };
 
  const cardDontMatched = (cards) => {
-
    return{
     type:"CARD_DONT_MATCHED",
     cards
    }
  };
 
- const timeUpdated = () => ({type:"TIME_UPDATE"});
+ const enableClick = () => {
+   return{
+      type:"ENABLE_CLICK"
+   }
+ };
 
- const clearArr = () => ({type:"CLEAR_MATCH_ARR"});
+ const disableClick = () => {
+   return{
+     type:"DISABLE_CLICK"
+   }
+ };
+
+ const timeUpdated = () => ({type:"TIME_UPDATE"});
 
  const gameIsFinished = (info) => {
    return{
@@ -45,11 +61,13 @@
  export {
    gameStarted,
    gameRestarted,
-   clickCard,
+   cardShow,
+   addIndex,
    cardMatched,
    cardDontMatched,
+   enableClick,
+   disableClick,
    timeUpdated,
-   gameIsFinished,
-   clearArr
+   gameIsFinished
  }
 
