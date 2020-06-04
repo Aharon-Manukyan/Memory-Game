@@ -1,0 +1,41 @@
+.timeBox{
+  margin: 25px auto;
+}
+
+.circle{
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 2px solid;
+  box-shadow: 13px -4px black;
+  background: #6225e6;
+  position: relative;
+  >div{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: white;
+    box-shadow: 5px -4px black;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+
+    .time{
+      position: absolute;
+      top: -55px;
+      left:25px;
+      font-size: 50px;
+      color: white;
+
+    }
+    .timeCount{
+      position: absolute;
+      top: 27px;
+      left:37px;
+      font-size: 80px;
+      color: #6610f2;
+      text-shadow: 3px 1px #6610f2;
+    }
+  }
+}
