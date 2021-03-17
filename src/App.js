@@ -12,7 +12,7 @@ function App({finish}) {
 
   return (
     <div className={styles.app} >
-       <h1> Memory Game</h1>
+       <h1>giMemory Game</h1>
         {
           finish
             ? <div className={styles.finishGame}>
